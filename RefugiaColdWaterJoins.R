@@ -1,3 +1,5 @@
+##Step 2: Join data layers to create one table with all variables used to model refugia for the habitat group##
+
 setwd("E:/2023_CurrentNM_Work/R/Tables")
 
 library(tidyverse)
@@ -137,41 +139,6 @@ write.csv(colwatjoin40_noNAs, "ColdWaterJoin.csv", row.names=FALSE )
 names(colwatjoin40_noNAs)
 
 
-##Filter layer joins
-
-colwatfilter1<-full_join(colperhuc12s, HUC12fishes, "HUC12")
-colwatfilter1_noNAs<-na.omit(colwatfilter1)
-
-colwatfilter2<-full_join(colwatfilter1_noNAs, huc12eapascov, "HUC12")
-colwatfilter2_noNAs<-na.omit(colwatfilter2)
-
-colwatfilter3<-full_join(colwatfilter2_noNAs, huc12insdis, "HUC12")
-colwatfilter3_noNAs<-na.omit(colwatfilter3)
-
-colwatfilter4<-full_join(colwatfilter3_noNAs, huc12eafpdev, "HUC12")
-colwatfilter4_noNAs<-na.omit(colwatfilter4)
-
-colwatfilter5<-full_join(colwatfilter4_noNAs, huc12eafpagr, "HUC12")
-colwatfilter5_noNAs<-na.omit(colwatfilter5)
-
-colwatfilter6<-full_join(colwatfilter5_noNAs, huc12eafpdcro, "HUC12")
-colwatfilter6_noNAs<-na.omit(colwatfilter6)
-
-colwatfilter7<-full_join(colwatfilter6_noNAs, huc12devind4045, "HUC12")
-colwatfilter7_noNAs<-na.omit(colwatfilter7)
-
-colwatfilter8<-full_join(colwatfilter7_noNAs, huc12watquacha4045, "HUC12")
-colwatfilter8_noNAs<-na.omit(colwatfilter8)
-
-colwatfilter9<-full_join(colwatfilter8_noNAs, huc12wildfirechange, "HUC12")
-colwatfilter9_noNAs<-na.omit(colwatfilter9)
-
-colwatfilter10<-full_join(colwatfilter9_noNAs, huc12pctimp, "HUC12")
-colwatfilter10_noNAs<-na.omit(colwatfilter10)
-
-
-write.csv(colwatfilter10_noNAs, "ColdWaterFilters.csv", row.names=FALSE )
-names(colwatfilter10_noNAs)
 
 
 
