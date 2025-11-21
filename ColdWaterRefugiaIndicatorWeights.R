@@ -1,13 +1,11 @@
+##Final step: use Z scores to calculate indicator weights and composite index (each HUC12's refugia potential for the habitat group)##
 setwd("E:/2023_CurrentNM_Work/R/Tables")
 
 library(nloptr)
 library(tidyverse)
 
-#Calculating topo indicator weights and then using weighted z-scores to calculate a composite index
 
 ##Load function for calculating composite index##
-
-
 optimize_composite_index <- function(data, 
                                      min_weight = 0.01,
                                      max_weight = NULL,
@@ -182,8 +180,8 @@ optimize_composite_index <- function(data,
 
 
   
-##Import z-scores from RefigiaZscores script    
-##topoveg indicators
+##Import z-scores from RefigiaZscores script##    
+#hydrorefugia indicators#
 data<-ColdWater_Z_topoveg
 data<-subset(data, select =-c(1,2,3))##removes response variables
 
@@ -202,7 +200,7 @@ write.csv(export_data_topoveg, "coldwatertopovegcompositendex.csv", row.names=FA
 
 
 
-##climate indicators
+##Macrorefugia indicators
 data<-ColdWater_Z_clim
 data<-subset(data, select =-c(1,2,3))##removes response variables
 
@@ -219,7 +217,7 @@ write.csv(export_data_clim, "coldwaterclimcompositendex.csv", row.names=FALSE)
 
 
 
-###Take weights from results, calculate z-scores again, but with HUC12s, create composite index again, and make a table with HUC12s for mapping
+###Take weights from results, calculate z-scores again, but with HUC12s, create composite index again, and make a table with HUC12s for mapping##
 
 HUC_variables<-read.csv("ColdwaterJoin.csv")
 names(HUC_variables)
@@ -246,7 +244,7 @@ ColdWater$hli_mean_rev = ColdWater$hli_mean*-1
 ColdWater$sbd250m_100bd_mean_rev = ColdWater$sbd250m_100bd_mean*-1 
 names(ColdWater)
 
-##topoveg indicators
+#Hydrorefugia indicators
 
 ColdWater_Z_topoveg = subset(ColdWater, select=c(1,12:14,16,18,21:22,24:25,32:33))
 names(ColdWater_Z_topoveg)
@@ -259,7 +257,7 @@ ColdWater_Z_topoveg [columns_to_stand1]= lapply(ColdWater_Z_topoveg[columns_to_s
 ##For some reason I had to add an additional column to stand, which adds a climate feature##
 ## new code to keep unchanged HUC12 with data 
 
-#with these files do the following with your own indicators and weights. I had to change these myself as I realized my initial runs were in error 
+##Add Z scores x weights to calculate final composite index for hydrorefugia
 
 coldwater_composite_index_topoveg<-ColdWater_Z_topoveg 
 names(coldwater_composite_index_topoveg)
@@ -278,7 +276,7 @@ coldwater_composite_index_topoveg$topovegCompositeStd =(coldwater_composite_inde
 
 write.csv(coldwater_composite_index_topoveg,"coldwater_composite_index_topoveg20250113.csv", row.names=FALSE) 
 
-##climate indicators
+##Macrorefugia indicators
 
 ColdWater_Z_clim = subset(ColdWater, select=c(1,5:6,9:10,26:31))
 names(ColdWater_Z_clim)
@@ -288,6 +286,7 @@ columns_to_stand1 = c(2:11) ###Keeps HUC12 column in untransformed state
 
 ColdWater_Z_clim [columns_to_stand1]= lapply(ColdWater_Z_clim[columns_to_stand1], scale) 
 
+##Add Z scores x weights to calculate final composite index for macrorefugia
 coldwater_composite_index_clim<-ColdWater_Z_clim 
 names(coldwater_composite_index_clim)
 coldwater_composite_index_clim$climSumW =(coldwater_composite_index_clim$PctChange_Bio18_MEAN*0.08824778) + (coldwater_composite_index_clim$PctChange_Bio19_MEAN*0.05) +(coldwater_composite_index_clim$MeanDifSWEH12*0.23836151) +  
@@ -325,6 +324,4 @@ coldwater_CI_Percentiles$ClimTop20<-ifelse (coldwater_CI_Percentiles$climComposi
 coldwater_CI_Percentiles$AveCITop20<-ifelse (coldwater_CI_Percentiles$Ave_CI >= 0.46809485, "Y", "N") 
 write.csv(coldwater_CI_Percentiles,"coldwater_CI_Percentiles.csv", row.names=FALSE) 
 
-Coldwater_CI_Per<-read.csv("coldwater_CI_Percentiles.csv")
-quantile(Coldwater_CI_Per$topovegCompositeStd,probs=seq(0,1,1/5))
-quantile(Coldwater_CI_Per$climCompositeStd,probs=seq(0,1,1/5))
+
