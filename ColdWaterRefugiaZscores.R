@@ -1,3 +1,5 @@
+##Step 4: Transform indicator data into Z scores##
+
 setwd("D:/2023_CurrentNM_Work/R/Tables")
 rm(list=ls(all=TRUE))
 
@@ -9,14 +11,11 @@ library(dplyr)
 HUC_indicators<-read.csv("ColdWaterJoin.csv")
 names(HUC_indicators)
 
-
 HUC_indicators = subset(HUC_indicators, select=-c(HUC12,NAME,HUC8,Diff_Bio1_Curr_50_MEAN, PctChg_Bio12_MEAN, PctChg_Bio13_MEAN, PctChg_Bio14_MEAN, MeanDifETH12, MeanDifHMIH12,MeanDifSMCH12, PctFPShr, PctFPWet, mean_avwatstr, cti_mean, curve_mean,tpi_mean))
 
 names(HUC_indicators)
 
-
-
-#adjust z scores to match relationship between diversity and richness, adjust Z scores for things we want to minimize (change in conditions and velocity and soil bulk density) 
+#Adjust z scores to match relationship between diversity and richness, adjust Z scores for things we want to minimize (change in conditions and velocity and soil bulk density) 
 
 
 HUC_indicators$Back_rcp45_rev = HUC_indicators$Back_rcp45_95_55_MEAN*-1 
@@ -149,3 +148,4 @@ for(col in names (AmphRep_Z)){
       ", p-value=", 
       
       round(test$p.value, 4), "/")} 
+
