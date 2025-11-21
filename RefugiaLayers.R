@@ -1,13 +1,13 @@
+##1st step: read in data layers prepared in ArcGIS Pro##
+
 rm(list=ls(all=TRUE))
 setwd("E:/2023_CurrentNM_Work/R/Tables")
 library(tidyverse)
 
 
 ###Base layers###
-huc12s<-read.csv("huc12s.csv") ##Springs/Ephemeral catchments/Amphibians and reptiles base layers##
-perstrhuc12s <- read.csv("perstrhuc12s.csv") ##Perennial streams base layer##
-colperhuc12s <- read.csv("colperhuc12s.csv") ##Cold-water perennial streams base layer##
-perlakponreshuc12s <- read.csv("perlakponreshuc12s.csv") ##Lakes, ponds, and reservoirs base layer##
+huc12s<-read.csv("huc12s.csv") ##12th-digit hydrologic unit code boundaries, clipped to the state of New Mexico's borders##
+
 
 ##Biotic value layers##
 huc12totaqusperic<-read.csv("huc12totaqusperic.csv") ##Total aquatic species richness - EnviroAtlas data
@@ -18,7 +18,7 @@ HUC12fishes<-read.csv("huc12fishcount.csv" ) ##Species richness of fishes - IUCN
 #HUC12lakes ##?##
 #HUC12Springs ##?##
 
-##Climate layers##
+##Climate layers; variables in which greater values = negative impacts are multiplied by -1##
 huc8diftemwetqua<-read.csv("huc8diftemwetqua.csv")##mean difference temperature wettest quarter Bio8
 huc8negdiftemwetqua<-read.csv("huc8negdiftemwetqua.csv") ##mean difference temperature wettest quarter *-1 
 huc8diftemdriqua<-read.csv("huc8difftemdriqua.csv")##mean difference temperature driest quarter Bio9
@@ -123,12 +123,6 @@ huc12meantpi<-read.csv("huc12meantpi.csv") ##mean topographic position index##
 huc12meantwi<-read.csv("huc12meantwi.csv") ##mean topographic wetness index##
 huc12meanvrm<-read.csv("huc12meanvrm.csv") ##mean vector ruggedness index?##
 
-huc12meanhlidiv<-read.csv("huc12meanhlidiv.csv")
-huc12stdhlidiv<-read.csv("huc12stdhlidiv.csv")
-huc12stdelev<-read.csv("huc12stdelev.csv")
-huc12stdrough<-read.csv("huc12stdrough.csv")
-huc12stdvrm<-read.csv("huc12stdvrm.csv")
-
 ##Hydrology layers##
 huc12wateryield<-read.csv("huc12wateryield.csv") ##water yield
 huc12watbodare<-read.csv("huc12watbodare.csv") ##water body area
@@ -197,3 +191,4 @@ huc12devind4085<-read.csv("huc12devind4085.csv") ##Development index for 2040 un
 huc12watquacha4045<-read.csv("huc12watquacha4045.csv") ##Projected change in water quantity under rcp.45 scenario
 huc12watquacha4085<-read.csv("huc12watquacha4085.csv") ##Projected change in water quantity under rcp.85 scenario
 huc12wildfirechange<-read.csv("huc12wildfirechange.csv") ##Projected wildfire risk
+
