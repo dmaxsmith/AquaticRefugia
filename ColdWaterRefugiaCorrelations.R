@@ -1,5 +1,5 @@
-############
-############ Correlations
+
+###Step 3: Testing for correlations among variables in joined file###
 ############
 setwd("E:/2023_CurrentNM_Work/R/Tables")
 
@@ -7,8 +7,7 @@ library("Hmisc")
 library("corrplot")
 library("rstatix")
 
-#creating versions without HUC12, which we don't want in correlation. I do not have lines for all the tables above so modify according to what you use. Also, 
-#good time to remove other variables you don't want in the correlation. Alternatively, use subset.
+##Create versions without HUC12, which we don't want in correlation##
 ##Hydrology and climate indicators##
 
 
@@ -24,27 +23,25 @@ ColWatVeg<-subset(ColWat, select=c(FishCount,SpringDens,Pct10deg,MeanCanHei,PctM
                                      PctFPWet))
 ColWatTopo<-subset(ColWat, select=c(FishCount,SpringDens,Pct10deg,mean_avwatstr,sbd250m_100bd_mean,cti_mean,curve_mean,dem_mean,tpi_mean,twi_mean,
                                      hli_mean,aspect_sh3_mean,geomorph_sh3_std,slope_stdev9_mean,PctCarbKarstH8,PctVolcKarstH8))
+
+
+##Read in files from Z score output to test for post-transfomation correlations##
 topoz<-read.csv("ColdWater_Z_topo.csv")
 climz<-read.csv("ColdWater_Z_clim.csv")
 vegz<-read.csv("ColdWater_Z_veg.csv")
 topovegz<-read.csv("ColdWater_Z_topoveg.csv")
-# computing correlation matrix. default is Pearson.
 
 
-
+#Compute correlation matrix. Default is Pearson##
 cor_ColWat= cor(ColWat, use="complete.obs")
 cor_ColWatClim= cor(ColWatClim, use="complete.obs")
 cor_ColWatVeg= cor(ColWatVeg, use="complete.obs")
 cor_ColWatTopo= cor(ColWatTopo, use="complete.obs")
 
-
-
 cor_topoz = cor(topoz, use="complete.obs")
 cor_climz = cor(climz, use="complete.obs")
 cor_vegz = cor(vegz, use="complete.obs")
 cor_topovegz = cor(topovegz, use="complete.obs")
-
-
 
 print(cor_ColWat)
 print(cor_ColWatClim)
@@ -55,22 +52,15 @@ print(cor_topoz)
 print(cor_climz)
 
 
-
-
-
 # visualizing correlogram
 corrplot(cor_ColWat,tl.cex=0.5, method="circle")
 corrplot(cor_ColWatClim, tl.cex=0.5, method="circle")
 corrplot(cor_ColWatVeg, tl.cex=0.5, method="circle")
 corrplot(cor_ColWatTopo, tl.cex=0.5, method="circle")
 
-
 corrplot(cor_climz,tl.cex=0.5, method="circle")
-
-
 corrplot(cor_topoz, tl.cex=0.8, method="circle")
 corrplot(cor_vegz, tl.cex=0.8, method="circle")
-
 corrplot(cor_topovegz, tl.cex=0.8, method="circle")
 
 #With P values
@@ -138,3 +128,4 @@ Cor_DivAll2 %>%
 number.cex=7/ncol(Cor_DivAll2)
 # visualizing correlogram
 # as circle
+
